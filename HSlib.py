@@ -1,6 +1,8 @@
 import random
+import re
 
 tri = lambda x: int(x * (x+1)) //2
+yesNoPattern = re.compile(r"(yes|no|y|n)(?=\s*)")
 
 def anyfinDMG():
     """
@@ -51,6 +53,52 @@ def fatigue(drawn, current=1):
     if (not (isinstance(drawn, int) and isinstance(current, int)))or drawn < 0 or current < 0:
         raise TypeError("put in positive intergers here")
     return tri(drawn + current - 1)-tri(current-1)
+
+
+def fatigueBattle():
+    """
+    this method should determine who wins and how may turns away in a fatigue game where there is no additional damage
+    :return:
+    """
+
+    myturn = None
+    while not myturn:
+        temp = input("Is it your turn? (yes/no)(y/n) ").lower()
+        if yesNoPattern.search(temp):
+            myturn = yesNoPattern.search(temp).group(0)
+    myturn = (myturn == "y" or myturn == "yes")
+
+    mine = int(input("How many cards do you have? "))
+    my_hp = int(input("How much health do you have? "))
+    my_fat = int(input("How much does the next fatigue card deal to you? "))
+    mine= max(0, mine)
+    my_fat = -max(0, my_fat)
+
+    they = int(input("How many cards does your opponent have? "))
+    their_hp = int(input("How much health does your opponent have? "))
+    their_fat = int(input("How much does the next fatigue card deal to your opponent? "))
+    they = max(0, they)
+    their_fat = -max(0, their_fat)
+
+    while my_hp > 0 and their_hp > 0:
+        if myturn:
+            if they:
+                they -= 1
+            else:
+                their_hp += their_fat
+                their_fat -= 1
+        else:
+            if mine:
+                mine -= 1
+            else:
+                my_hp += my_fat
+                my_fat -= 1
+        myturn = not myturn
+    printstuff = {True: ("You win", "they", my_hp), False:("They win", "you",their_hp)}
+    printstuff = printstuff[(my_hp > their_hp)]
+    print("{} to change this {} need to deal {} damage before it ends."
+          .format(printstuff[0], printstuff[1], printstuff[2]))
+
 
 
 def main():
