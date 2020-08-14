@@ -3,6 +3,18 @@ import re
 
 tri = lambda x: int(x * (x+1)) //2
 yesNoPattern = re.compile(r"(yes|no|y|n)(?=\s*)")
+selfignore= {'__builtins__',
+             '__cached__',
+             '__doc__',
+             '__file__',
+             '__loader__',
+             '__name__',
+             '__package__',
+             '__spec__',
+             'yesNoPattern',
+             'random',
+             're',
+             'selfignore'}
 
 def anyfinDMG():
     """

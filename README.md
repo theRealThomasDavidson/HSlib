@@ -14,12 +14,16 @@ running HSlib
 Learning the methods
 
 1)  do steps 1-3 of "running HSlib"
-2)  use ">import HSlib"
-3)  use " >for meth in dir(HSlib):
-          >    print(meth)
-          >    help(meth)
-          >"
-4) see the documentation for each method in the library
+2)  use "
+    >import HSlib"
+3)  use 
+'''python
+
+    >for meth in filter(lambda x: x not in HSlib.selfignore, dir(HSlib)):
+    >    help("HSlib." + meth)
+    >
+''''
+\4) see the documentation for each method in the library
 
 
 Learning a method
